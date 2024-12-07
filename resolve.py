@@ -28,9 +28,11 @@ def GradeFunction(_w, _p, _c, _chr):
     if(max_w > _c): #formula when weight ciriteria not met
         max_p = -1 #old formula
         #max_p = max_p + (_c - max_w) 
+        #max_p = round(max_p / max_w, 2)
     #print("chromosom: " + _chr)
     #print("total weight: " + str(max_w))
     #print("total value: " + str(max_p) + "\n")
+
     return {'chromosom' : _chr, 'weight' : max_w, 'value' : max_p}
 
 def RankingFunction(_w, _p, _c, _chromosomList):
@@ -50,7 +52,7 @@ def GenCrossing(_rankedChromosomList, _mutationOffset, _isOffsetRandom, ):
         mutationOffset = random.randint(1, len(_rankedChromosomList[0]['chromosom'])-1)
     #print(mutationOffset)
     #for i, chromosom in enumerate(_rankedChromosomList[:round_up_to_even(len(_rankedChromosomList)/2):2]):
-    print(f"len: {round_up_to_even(len(_rankedChromosomList)/2)}")
+    #print(f"len: {round_up_to_even(len(_rankedChromosomList)/2)}")
     for i in range(round_up_to_even(len(_rankedChromosomList)/2)):
         #print(f"Evolving chromosom r{i*2} {_rankedChromosomList[i*2]['chromosom']} with chromosom r{i*2+1} {_rankedChromosomList[i*2+1]['chromosom']}")
         mutatedChromosomsList.append(_rankedChromosomList[i*2]['chromosom'][:_mutationOffset]+_rankedChromosomList[i*2+1]['chromosom'][_mutationOffset:])
@@ -79,15 +81,15 @@ def Evolution(_weight, _price, _capacity, _numOfStartingChromosoms, _numOfGenera
     print(inputChromosoms)
     for i in range(_numOfGeneration):
         rankedChromosoms = RankingFunction(_weight, _price, _capacity, inputChromosoms)
-        print(f"Best chromosom from this generations is {rankedChromosoms[0]}")
-        inputChromosoms = GenCrossing2(rankedChromosoms, 3 , False)
+        print(f"Best chromosom from this generation #{i} is {rankedChromosoms[0]}")
+        inputChromosoms = GenCrossing(rankedChromosoms, 3 , False)
 
 
 weight = [46, 40, 42, 38, 10]
 price = [12, 19, 19, 15, 8]
 capacity = 40
 
-Evolution(weight, price, capacity, 10, 3)
+Evolution(weight, price, capacity, 10, 5)
 
 
 #mutatedChromosoms = GenCrossing(out, 3 , False)
